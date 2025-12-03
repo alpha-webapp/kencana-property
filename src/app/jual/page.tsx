@@ -33,6 +33,9 @@ interface PropertyFormData {
   ownerEmail: string;
 }
 
+// Form errors type (all string messages)
+type FormErrors = Partial<Record<keyof PropertyFormData, string>>;
+
 const initialFormData: PropertyFormData = {
   listingType: "",
   propertyType: "",
@@ -83,7 +86,7 @@ export default function JualPropertiPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<PropertyFormData>(initialFormData);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [errors, setErrors] = useState<Partial<PropertyFormData>>({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const totalSteps = 5;
 
@@ -96,7 +99,7 @@ export default function JualPropertiPage() {
   };
 
   const validateStep = (step: number): boolean => {
-    const newErrors: Partial<PropertyFormData> = {};
+    const newErrors: FormErrors = {};
 
     switch (step) {
       case 1:
@@ -316,7 +319,7 @@ function Step1({
 }: {
   formData: PropertyFormData;
   updateFormData: (field: keyof PropertyFormData, value: string) => void;
-  errors: Partial<PropertyFormData>;
+  errors: FormErrors;
 }) {
   return (
     <div className="space-y-6">
@@ -394,7 +397,7 @@ function Step2({
 }: {
   formData: PropertyFormData;
   updateFormData: (field: keyof PropertyFormData, value: string) => void;
-  errors: Partial<PropertyFormData>;
+  errors: FormErrors;
 }) {
   return (
     <div className="space-y-5">
@@ -468,7 +471,7 @@ function Step3({
 }: {
   formData: PropertyFormData;
   updateFormData: (field: keyof PropertyFormData, value: string) => void;
-  errors: Partial<PropertyFormData>;
+  errors: FormErrors;
   formatPrice: (value: string) => string;
 }) {
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -609,7 +612,7 @@ function Step4({
 }: {
   formData: PropertyFormData;
   updateFormData: (field: keyof PropertyFormData, value: string) => void;
-  errors: Partial<PropertyFormData>;
+  errors: FormErrors;
 }) {
   return (
     <div className="space-y-5">
@@ -708,7 +711,7 @@ function Step5({
 }: {
   formData: PropertyFormData;
   updateFormData: (field: keyof PropertyFormData, value: string) => void;
-  errors: Partial<PropertyFormData>;
+  errors: FormErrors;
 }) {
   return (
     <div className="space-y-5">
