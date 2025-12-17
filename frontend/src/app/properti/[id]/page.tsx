@@ -4,26 +4,38 @@ import ImageGallery from "@/components/property/ImageGallery";
 import ContactSidebar from "@/components/property/ContactSidebar";
 import PropertyCard from "@/components/property/PropertyCard";
 import {
-  getPropertyById,
+  getPropertyDetailBySlug,
   getSimilarProperties,
-} from "@/lib/property-details";
-import { mockProperties } from "@/lib/mock-data";
+  type Property,
+} from "@/lib/data";
 
 interface PropertyDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
+// Default agent info until we have agents in the database
+const defaultAgent = {
+  name: "Kencana Property",
+  phone: "+6281234567890",
+  whatsapp: "6281234567890",
+};
+
 export default async function PropertyDetailPage({
   params,
 }: PropertyDetailPageProps) {
   const { id } = await params;
-  const property = getPropertyById(id);
+  
+  // id is now actually the slug from URL
+  const property = await getPropertyDetailBySlug(id);
 
   if (!property) {
     notFound();
   }
 
-  const similarProperties = getSimilarProperties(id, property.propertyType);
+  const similarProperties = await getSimilarProperties(
+    property.id,
+    property.propertyType
+  );
 
   // Format price
   const formatPrice = (value: number) => {
@@ -35,10 +47,8 @@ export default async function PropertyDetailPage({
     return `Rp ${value.toLocaleString("id-ID")}`;
   };
 
-  // Get similar properties from mockProperties for cards
-  const similarCards = mockProperties.filter(
-    (p) => p.id !== id && p.propertyType === property.propertyType
-  ).slice(0, 3);
+  // Use default agent for now
+  const agent = defaultAgent;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -335,19 +345,19 @@ export default async function PropertyDetailPage({
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
                   <span className="text-emerald-600 font-semibold">
-                    {property.agent.name.charAt(0)}
+                    {agent.name.charAt(0)}
                   </span>
                 </div>
                 <div>
                   <p className="font-medium text-gray-900">
-                    {property.agent.name}
+                    {agent.name}
                   </p>
                   <p className="text-sm text-gray-500">Agen Properti</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <a
-                  href={`https://wa.me/${property.agent.whatsapp}?text=${encodeURIComponent(`Halo, saya tertarik dengan properti "${property.title}"`)}`}
+                  href={`https://wa.me/${agent.whatsapp}?text=${encodeURIComponent(`Halo, saya tertarik dengan properti "${property.title}"`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors"
@@ -358,7 +368,7 @@ export default async function PropertyDetailPage({
                   WhatsApp
                 </a>
                 <a
-                  href={`tel:${property.agent.phone}`}
+                  href={`tel:${agent.phone}`}
                   className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
                 >
                   <svg
@@ -383,24 +393,38 @@ export default async function PropertyDetailPage({
           {/* Sidebar - Desktop Only */}
           <div className="hidden lg:block lg:w-80 flex-shrink-0">
             <ContactSidebar
-              agent={property.agent}
+              agent={agent}
               propertyTitle={property.title}
               price={property.price}
-              priceLabel={property.priceLabel}
+              priceLabel={property.priceLabel || undefined}
             />
           </div>
         </div>
 
         {/* Similar Properties */}
-        {similarCards.length > 0 && (
+        {similarProperties.length > 0 && (
           <div className="mt-12">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
               Properti Serupa
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {similarCards.map((prop) => (
-                <Link key={prop.id} href={`/properti/${prop.id}`}>
-                  <PropertyCard {...prop} />
+              {similarProperties.map((prop) => (
+                <Link key={prop.id} href={`/properti/${prop.slug}`}>
+                  <PropertyCard
+                    id={prop.id}
+                    title={prop.title}
+                    price={prop.price}
+                    priceLabel={prop.priceLabel || undefined}
+                    location={prop.location}
+                    district={prop.district}
+                    imageUrl={prop.imageUrl}
+                    propertyType={prop.propertyType}
+                    transactionType={prop.transactionType}
+                    bedrooms={prop.bedrooms || undefined}
+                    bathrooms={prop.bathrooms || undefined}
+                    landSize={prop.landSize || undefined}
+                    buildingSize={prop.buildingSize || undefined}
+                  />
                 </Link>
               ))}
             </div>

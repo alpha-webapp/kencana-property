@@ -3,8 +3,12 @@ import CategorySection from "@/components/home/CategorySection";
 import PopularLocations from "@/components/home/PopularLocations";
 import FeaturedListings from "@/components/home/FeaturedListings";
 import SellerCTA from "@/components/home/SellerCTA";
+import { getFeaturedProperties } from "@/lib/data";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch featured properties server-side
+  const properties = await getFeaturedProperties(8);
+
   return (
     <>
       {/* Hero with Search */}
@@ -17,7 +21,11 @@ export default function Home() {
       <PopularLocations />
 
       {/* Featured Properties with Filter */}
-      <FeaturedListings title="Properti Pilihan" showFilter={true} />
+      <FeaturedListings 
+        title="Properti Pilihan" 
+        showFilter={true} 
+        properties={properties}
+      />
 
       {/* Seller CTA Banner */}
       <SellerCTA />

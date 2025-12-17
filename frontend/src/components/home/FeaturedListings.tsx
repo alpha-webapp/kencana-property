@@ -3,23 +3,25 @@
 import { useState } from "react";
 import Link from "next/link";
 import PropertyCard from "@/components/property/PropertyCard";
-import { mockProperties } from "@/lib/mock-data";
+import type { Property } from "@/lib/data";
 
 interface FeaturedListingsProps {
   title: string;
   showFilter?: boolean;
+  properties: Property[];
 }
 
 export default function FeaturedListings({
   title,
   showFilter = false,
+  properties,
 }: FeaturedListingsProps) {
   const [filter, setFilter] = useState<"all" | "dijual" | "disewa">("all");
 
   const filteredProperties =
     filter === "all"
-      ? mockProperties
-      : mockProperties.filter((p) => p.transactionType === filter);
+      ? properties
+      : properties.filter((p) => p.transactionType === filter);
 
   return (
     <section className="py-12 px-4 bg-white">
@@ -67,8 +69,22 @@ export default function FeaturedListings({
         {/* Property Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProperties.slice(0, 6).map((property) => (
-            <Link key={property.id} href={`/properti/${property.id}`}>
-              <PropertyCard {...property} />
+            <Link key={property.id} href={`/properti/${property.slug}`}>
+              <PropertyCard
+                id={property.id}
+                title={property.title}
+                price={property.price}
+                priceLabel={property.priceLabel || undefined}
+                location={property.location}
+                district={property.district}
+                imageUrl={property.imageUrl}
+                propertyType={property.propertyType}
+                transactionType={property.transactionType}
+                bedrooms={property.bedrooms || undefined}
+                bathrooms={property.bathrooms || undefined}
+                landSize={property.landSize || undefined}
+                buildingSize={property.buildingSize || undefined}
+              />
             </Link>
           ))}
         </div>
