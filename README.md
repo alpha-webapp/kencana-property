@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kencana Property
 
-## Getting Started
+Multi-city property listing website (real estate marketplace) focused on Yogyakarta, Indonesia.
 
-First, run the development server:
+## Project Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+kencana-property/
+├── frontend/          # Next.js 16 application
+├── backend/           # Supabase configuration & migrations
+├── docs/              # Project documentation
+└── README.md          # This file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS |
+| Backend | Supabase (Auth, PostgreSQL, Storage) |
+| Deployment | Vercel (frontend) + Supabase (backend) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Quick Start
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js 18+
+- npm or pnpm
+- Supabase account
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+cd frontend
+npm install
+cp .env.example .env.local  # Configure your env variables
+npm run dev
+```
 
-## Deploy on Vercel
+### Backend Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+See [backend/README.md](backend/README.md) for Supabase setup instructions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Documentation
+
+- [Project Documentation](docs/DOCUMENTATION.md) - Overall project overview
+- [Phase 1 Backend Plan](docs/PHASE-1-BACKEND-PLAN.md) - Backend implementation plan
+
+## Development Phases
+
+| Phase | Status | Description |
+|-------|--------|-------------|
+| Phase 1 | ✅ Done | Homepage |
+| Phase 2 | ✅ Done | Property Listing Page |
+| Phase 3 | ✅ Done | Property Detail Page |
+| Phase 4 | 🚧 In Progress | Backend Foundation (Supabase) |
+| Phase 5 | ⏳ Pending | Admin Authentication |
+| Phase 6 | ⏳ Pending | Admin Dashboard |
+| Phase 7 | ⏳ Pending | Property Management |
+
+## License
+
+Private - All rights reserved
