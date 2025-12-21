@@ -58,16 +58,32 @@ Multi-city property listing website (real estate marketplace) focused on Yogyaka
 | Storage Bucket | ✅ Done | `property-images` bucket |
 | Seed Data | ✅ Done | 6 properties loaded |
 
+### ✅ Phase 5: Frontend-Supabase Integration (COMPLETED)
+
+| Component | Status | File/Location |
+|-----------|--------|---------------|
+| Data Access Layer | ✅ Done | `frontend/src/lib/data/properties.ts` |
+| Homepage fetching | ✅ Done | Uses `getFeaturedProperties()` |
+| Property listing page | ✅ Done | Uses `getProperties()` with filters |
+| Property detail page | ✅ Done | Uses `getPropertyDetailBySlug()` |
+
 ---
 
 ## 🗺️ Implementation Roadmap
 
-### Phase 5: Frontend-Supabase Integration (Next)
-- [ ] Replace mock-data.ts with Supabase queries
-- [ ] Update homepage to fetch from database
-- [ ] Update property listing page
-- [ ] Update property detail page
-- [ ] Implement contact form submission
+### 🔧 Phase R: Architecture Refactoring (NEXT - PRIORITY)
+
+**See:** [REFACTORING-PLAN.md](REFACTORING-PLAN.md)
+
+Before implementing new features, refactor to API Routes architecture:
+
+| Task | Status | Description |
+|------|--------|-------------|
+| R4: Types & Utils | ⏳ Pending | ServiceResult type, API response helpers |
+| R2: Validators | ⏳ Pending | Zod schemas for input validation |
+| R1: Service Layer | ⏳ Pending | Business logic for properties, inquiries, auth |
+| R3: API Routes | ⏳ Pending | RESTful endpoints |
+| R5: Integration | ⏳ Pending | Connect forms to API routes |
 
 ### Phase 6: Admin Authentication
 - [ ] Login page (`/login`)
@@ -86,6 +102,12 @@ Multi-city property listing website (real estate marketplace) focused on Yogyaka
 - [ ] Image upload to Supabase Storage
 - [ ] Delete property (with confirmation)
 - [ ] Draft/publish workflow
+
+### Phase 9: Contact Form Integration
+- [ ] Connect contact page form to `/api/inquiries`
+- [ ] Connect property detail inquiry to `/api/inquiries`
+- [ ] Form validation with error display
+- [ ] Success/error notifications
 
 ---
 

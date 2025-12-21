@@ -44,7 +44,10 @@ See [backend/README.md](backend/README.md) for Supabase setup instructions.
 ## Documentation
 
 - [Project Documentation](docs/DOCUMENTATION.md) - Overall project overview
+- [Refactoring Plan](docs/REFACTORING-PLAN.md) - API Routes architecture plan
 - [Phase 1 Backend Plan](docs/PHASE-1-BACKEND-PLAN.md) - Backend implementation plan
+- [Phase 1 Completion](docs/PHASE-1-COMPLETION.md) - Backend completion report
+- [Code Review Audit](docs/CODE-REVIEW-AUDIT.md) - Code quality audit
 
 ## Development Phases
 
@@ -53,10 +56,13 @@ See [backend/README.md](backend/README.md) for Supabase setup instructions.
 | Phase 1 | ✅ Done | Homepage |
 | Phase 2 | ✅ Done | Property Listing Page |
 | Phase 3 | ✅ Done | Property Detail Page |
-| Phase 4 | 🚧 In Progress | Backend Foundation (Supabase) |
-| Phase 5 | ⏳ Pending | Admin Authentication |
-| Phase 6 | ⏳ Pending | Admin Dashboard |
-| Phase 7 | ⏳ Pending | Property Management |
+| Phase 4 | ✅ Done | Backend Foundation (Supabase) |
+| Phase 5 | ✅ Done | Frontend-Supabase Integration |
+| **Phase R** | 🔧 Next | **Architecture Refactoring** |
+| Phase 6 | ⏳ Pending | Admin Authentication |
+| Phase 7 | ⏳ Pending | Admin Dashboard |
+| Phase 8 | ⏳ Pending | Property Management |
+| Phase 9 | ⏳ Pending | Contact Form Integration |
 
 ## License
 
