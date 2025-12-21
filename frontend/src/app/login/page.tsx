@@ -64,7 +64,7 @@ function LoginForm() {
               setFormData({ ...formData, email: e.target.value })
             }
             placeholder="admin@kencanaproperty.id"
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 bg-white"
           />
         </div>
 
@@ -84,7 +84,7 @@ function LoginForm() {
               setFormData({ ...formData, password: e.target.value })
             }
             placeholder="••••••••"
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900 bg-white"
           />
         </div>
 
