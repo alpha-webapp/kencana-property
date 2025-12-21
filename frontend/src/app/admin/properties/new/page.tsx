@@ -26,6 +26,16 @@ const TRANSACTION_TYPES = [
   { value: "disewa", label: "Disewa" },
 ];
 
+const CERTIFICATES = [
+  { value: "", label: "Pilih" },
+  { value: "shm", label: "SHM (Sertifikat Hak Milik)" },
+  { value: "shgb", label: "SHGB (Sertifikat Hak Guna Bangunan)" },
+  { value: "shp", label: "SHP (Sertifikat Hak Pakai)" },
+  { value: "girik", label: "Girik" },
+  { value: "ppjb", label: "PPJB" },
+  { value: "lainnya", label: "Lainnya" },
+];
+
 export default function NewPropertyPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -345,13 +355,15 @@ export default function NewPropertyPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Sertifikat
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={formData.certificate}
                     onChange={(e) => updateField("certificate", e.target.value)}
-                    placeholder="SHM, HGB"
                     className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-900"
-                  />
+                  >
+                    {CERTIFICATES.map((c) => (
+                      <option key={c.value} value={c.value}>{c.label}</option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
