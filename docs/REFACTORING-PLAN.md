@@ -1,8 +1,21 @@
 # Refactoring Plan: API Routes Architecture
 
 **Created:** December 21, 2024  
-**Status:** 📋 PLANNED  
+**Updated:** December 21, 2024  
+**Status:** 🚧 IN PROGRESS  
 **Priority:** High (should be done before implementing new features)
+
+---
+
+## Progress Tracker
+
+| Phase | Task | Status | Commit |
+|-------|------|--------|--------|
+| R4 | Shared types & API response helpers | ✅ Done | `b6e6d36` |
+| R2 | Zod validators | ⏳ Next | - |
+| R1 | Service layer | ⏳ Pending | - |
+| R3 | API Routes | ⏳ Pending | - |
+| R5 | Integration | ⏳ Pending | - |
 
 ---
 
