@@ -289,3 +289,115 @@ export async function getSimilarProperties(
   return data.map(transformProperty);
 }
 
+// Property count by type
+export interface PropertyTypeCount {
+  id: string;
+  label: string;
+  icon: string;
+  count: number;
+}
+
+/**
+ * Get property counts grouped by property type
+ */
+export async function getPropertyCountsByType(): Promise<PropertyTypeCount[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("properties")
+    .select("property_type")
+    .eq("status", "published");
+
+  if (error) {
+    console.error("Error fetching property counts:", error);
+    return [];
+  }
+
+  // Count by type
+  const counts: Record<string, number> = {};
+  data.forEach((row) => {
+    const type = row.property_type;
+    counts[type] = (counts[type] || 0) + 1;
+  });
+
+  // Map to display format
+  const typeConfig: Record<string, { label: string; icon: string }> = {
+    rumah: { label: "Rumah", icon: "🏠" },
+    apartemen: { label: "Apartemen", icon: "🏢" },
+    tanah: { label: "Tanah", icon: "🌳" },
+    villa: { label: "Villa", icon: "🏡" },
+    ruko: { label: "Ruko", icon: "🏪" },
+    kos: { label: "Kos", icon: "🛏️" },
+  };
+
+  return Object.entries(typeConfig).map(([id, config]) => ({
+    id,
+    label: config.label,
+    icon: config.icon,
+    count: counts[id] || 0,
+  }));
+}
+
+// District with property count
+export interface DistrictCount {
+  id: string;
+  name: string;
+  imageUrl: string;
+  propertyCount: number;
+}
+
+/**
+ * Get property counts grouped by district
+ */
+export async function getPropertyCountsByDistrict(): Promise<DistrictCount[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("properties")
+    .select("district")
+    .eq("status", "published");
+
+  if (error) {
+    console.error("Error fetching district counts:", error);
+    return [];
+  }
+
+  // Count by district
+  const counts: Record<string, number> = {};
+  data.forEach((row) => {
+    const district = row.district;
+    counts[district] = (counts[district] || 0) + 1;
+  });
+
+  // District display config with images
+  const districtConfig: Record<string, { name: string; imageUrl: string }> = {
+    Sleman: {
+      name: "Sleman",
+      imageUrl: "https://images.unsplash.com/photo-1555217851-6141535bd771?w=800&q=80",
+    },
+    "Kota Yogyakarta": {
+      name: "Kota Yogyakarta",
+      imageUrl: "https://images.unsplash.com/photo-1584810359583-96fc3448beaa?w=800&q=80",
+    },
+    Bantul: {
+      name: "Bantul",
+      imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
+    },
+    "Gunung Kidul": {
+      name: "Gunung Kidul",
+      imageUrl: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=800&q=80",
+    },
+    "Kulon Progo": {
+      name: "Kulon Progo",
+      imageUrl: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
+    },
+  };
+
+  return Object.entries(districtConfig).map(([key, config]) => ({
+    id: key.toLowerCase().replace(/\s+/g, "-"),
+    name: config.name,
+    imageUrl: config.imageUrl,
+    propertyCount: counts[key] || 0,
+  }));
+}
+

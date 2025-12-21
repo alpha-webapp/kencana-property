@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { propertyCategories } from "@/lib/mock-data";
+import { getPropertyCountsByType } from "@/lib/data/properties";
 
-export default function CategorySection() {
+export default async function CategorySection() {
+  const categories = await getPropertyCountsByType();
+
   return (
     <section className="py-12 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -11,7 +13,7 @@ export default function CategorySection() {
         
         {/* Scrollable on mobile, grid on desktop */}
         <div className="flex overflow-x-auto pb-4 md:grid md:grid-cols-6 gap-4 scrollbar-hide">
-          {propertyCategories.map((category) => (
+          {categories.map((category) => (
             <Link
               key={category.id}
               href={`/properti?type=${category.id}`}

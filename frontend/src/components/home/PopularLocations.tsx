@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { yogyakartaDistricts } from "@/lib/mock-data";
+import { getPropertyCountsByDistrict } from "@/lib/data/properties";
 
-export default function PopularLocations() {
+export default async function PopularLocations() {
+  const districts = await getPropertyCountsByDistrict();
+
   return (
     <section className="py-12 px-4 bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -11,7 +13,7 @@ export default function PopularLocations() {
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {yogyakartaDistricts.map((district) => (
+          {districts.slice(0, 4).map((district) => (
             <Link
               key={district.id}
               href={`/properti?location=${district.id}`}
