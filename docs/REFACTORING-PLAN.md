@@ -12,8 +12,8 @@
 | Phase | Task | Status | Commit |
 |-------|------|--------|--------|
 | R4 | Shared types & API response helpers | ✅ Done | `b6e6d36` |
-| R2 | Zod validators | ⏳ Next | - |
-| R1 | Service layer | ⏳ Pending | - |
+| R2 | Zod validators | ✅ Done | `88ca26a` |
+| R1 | Service layer | ⏳ Next | - |
 | R3 | API Routes | ⏳ Pending | - |
 | R5 | Integration | ⏳ Pending | - |
 
