@@ -1,6 +1,6 @@
+import { NextResponse } from "next/server";
 import {
   apiSuccess,
-  apiError,
   apiServerError,
 } from "@/lib/utils";
 import { logout } from "@/lib/services";
@@ -9,12 +9,20 @@ import { logout } from "@/lib/services";
  * POST /api/auth/logout
  * Logout current user
  */
-export async function POST() {
+export async function POST(request: Request) {
   try {
     const result = await logout();
 
     if (!result.success) {
-      return apiError(result.error);
+      // Still redirect even on error
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    // Check if this is a form submission (redirect) or API call (JSON)
+    const contentType = request.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      // Form submission - redirect to login
+      return NextResponse.redirect(new URL("/login", request.url));
     }
 
     return apiSuccess({ message: "Logged out successfully" });
