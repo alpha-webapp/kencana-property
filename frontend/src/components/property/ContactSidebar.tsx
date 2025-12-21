@@ -8,6 +8,7 @@ interface ContactSidebarProps {
     phone: string;
     whatsapp: string;
   };
+  propertyId: string;
   propertyTitle: string;
   price: number;
   priceLabel?: string;
@@ -15,6 +16,7 @@ interface ContactSidebarProps {
 
 export default function ContactSidebar({
   agent,
+  propertyId,
   propertyTitle,
   price,
   priceLabel = "",
@@ -22,9 +24,13 @@ export default function ContactSidebar({
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     phone: "",
     message: `Halo, saya tertarik dengan properti "${propertyTitle}". Mohon informasi lebih lanjut.`,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Format price
   const formatPrice = (value: number) => {
@@ -42,11 +48,38 @@ export default function ContactSidebar({
   );
   const whatsappLink = `https://wa.me/${agent.whatsapp}?text=${whatsappMessage}`;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In real app, this would send to backend
-    alert("Pesan terkirim! Tim kami akan menghubungi Anda segera.");
-    setShowForm(false);
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "property",
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          message: formData.message,
+          property_id: propertyId,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        setError(result.error || "Gagal mengirim pesan");
+        return;
+      }
+
+      setIsSubmitted(true);
+    } catch {
+      setError("Terjadi kesalahan. Silakan coba lagi.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -134,58 +167,92 @@ export default function ContactSidebar({
 
       {/* Contact Form */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="mt-6 pt-6 border-t border-gray-200 space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Nama
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              placeholder="Nama lengkap Anda"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              No. Telepon
-            </label>
-            <input
-              type="tel"
-              value={formData.phone}
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
-              }
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              placeholder="08xxxxxxxxxx"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Pesan
-            </label>
-            <textarea
-              value={formData.message}
-              onChange={(e) =>
-                setFormData({ ...formData, message: e.target.value })
-              }
-              rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
-          >
-            Kirim Pesan
-          </button>
-        </form>
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          {isSubmitted ? (
+            <div className="text-center py-4">
+              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <p className="font-medium text-gray-900 mb-1">Pesan Terkirim!</p>
+              <p className="text-sm text-gray-600">Tim kami akan menghubungi Anda segera.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Nama
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  placeholder="Nama lengkap Anda"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  placeholder="email@contoh.com"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  No. Telepon
+                </label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  placeholder="08xxxxxxxxxx (opsional)"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Pesan
+                </label>
+                <textarea
+                  value={formData.message}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
+                  rows={3}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
+                  required
+                />
+              </div>
+              {error && (
+                <div className="bg-red-50 text-red-600 px-3 py-2 rounded-lg text-sm">
+                  {error}
+                </div>
+              )}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Mengirim..." : "Kirim Pesan"}
+              </button>
+            </form>
+          )}
+        </div>
       )}
     </div>
   );

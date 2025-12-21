@@ -394,6 +394,7 @@ export default async function PropertyDetailPage({
           <div className="hidden lg:block lg:w-80 flex-shrink-0">
             <ContactSidebar
               agent={agent}
+              propertyId={property.id}
               propertyTitle={property.title}
               price={property.price}
               priceLabel={property.priceLabel || undefined}

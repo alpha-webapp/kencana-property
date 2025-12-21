@@ -10,13 +10,42 @@ export default function KontakPage() {
     subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In real app, this would send to API
-    console.log("Contact form submitted:", formData);
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "contact",
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        setError(result.error || "Gagal mengirim pesan");
+        return;
+      }
+
+      setIsSubmitted(true);
+    } catch {
+      setError("Terjadi kesalahan. Silakan coba lagi.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const whatsappNumber = "6281234567890";
@@ -350,11 +379,18 @@ export default function KontakPage() {
                       />
                     </div>
 
+                    {error && (
+                      <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm">
+                        {error}
+                      </div>
+                    )}
+
                     <button
                       type="submit"
-                      className="w-full bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors"
+                      disabled={isSubmitting}
+                      className="w-full bg-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Kirim Pesan
+                      {isSubmitting ? "Mengirim..." : "Kirim Pesan"}
                     </button>
                   </form>
                 )}
