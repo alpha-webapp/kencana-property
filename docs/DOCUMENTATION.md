@@ -71,19 +71,19 @@ Multi-city property listing website (real estate marketplace) focused on Yogyaka
 
 ## 🗺️ Implementation Roadmap
 
-### 🔧 Phase R: Architecture Refactoring (NEXT - PRIORITY)
+### 🔧 Phase R: Architecture Refactoring (COMPLETED)
 
 **See:** [REFACTORING-PLAN.md](REFACTORING-PLAN.md)
 
-Before implementing new features, refactor to API Routes architecture:
+Refactored from Supabase-only to API Routes architecture:
 
 | Task | Status | Description |
 |------|--------|-------------|
-| R4: Types & Utils | ⏳ Pending | ServiceResult type, API response helpers |
-| R2: Validators | ⏳ Pending | Zod schemas for input validation |
-| R1: Service Layer | ⏳ Pending | Business logic for properties, inquiries, auth |
-| R3: API Routes | ⏳ Pending | RESTful endpoints |
-| R5: Integration | ⏳ Pending | Connect forms to API routes |
+| R4: Types & Utils | ✅ Done | ServiceResult type, API response helpers |
+| R2: Validators | ✅ Done | Zod schemas for input validation |
+| R1: Service Layer | ✅ Done | Business logic for properties, inquiries, auth, storage |
+| R3: API Routes | ✅ Done | RESTful endpoints |
+| R5: Integration | ✅ Done | Connect forms to API routes |
 
 ### Phase 6: Admin Authentication
 - [ ] Login page (`/login`)

@@ -58,7 +58,7 @@ See [backend/README.md](backend/README.md) for Supabase setup instructions.
 | Phase 3 | ✅ Done | Property Detail Page |
 | Phase 4 | ✅ Done | Backend Foundation (Supabase) |
 | Phase 5 | ✅ Done | Frontend-Supabase Integration |
-| **Phase R** | 🔧 Next | **Architecture Refactoring** |
+| **Phase R** | ✅ Done | **Architecture Refactoring** |
 | Phase 6 | ⏳ Pending | Admin Authentication |
 | Phase 7 | ⏳ Pending | Admin Dashboard |
 | Phase 8 | ⏳ Pending | Property Management |
