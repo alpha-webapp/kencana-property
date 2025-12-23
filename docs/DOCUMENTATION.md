@@ -86,28 +86,28 @@ Refactored from Supabase-only to API Routes architecture:
 | R5: Integration | ✅ Done | Connect forms to API routes |
 
 ### Phase 6: Admin Authentication
-- [ ] Login page (`/login`)
+- [x] Login page (`/login`) ✅
 - [ ] Registration page (`/daftar`)
-- [ ] Session management
-- [ ] Protected admin routes
+- [x] Session management ✅
+- [x] Protected admin routes ✅
 
 ### Phase 7: Admin Dashboard
-- [ ] Overview/stats page
-- [ ] Property list with actions
-- [ ] Inquiry inbox
+- [x] Overview/stats page ✅
+- [x] Property list with actions ✅
+- [x] Inquiry inbox ✅
 
 ### Phase 8: Admin Property Management
-- [ ] Create property form
+- [x] Create property form ✅
 - [ ] Edit property form
 - [ ] Image upload to Supabase Storage
-- [ ] Delete property (with confirmation)
+- [x] Delete property (with confirmation) ✅
 - [ ] Draft/publish workflow
 
 ### Phase 9: Contact Form Integration
-- [ ] Connect contact page form to `/api/inquiries`
-- [ ] Connect property detail inquiry to `/api/inquiries`
-- [ ] Form validation with error display
-- [ ] Success/error notifications
+- [x] Connect contact page form to `/api/inquiries` ✅
+- [x] Connect property detail inquiry to `/api/inquiries` ✅
+- [x] Form validation with error display ✅
+- [x] Success/error notifications ✅
 
 ---
 
